@@ -27,6 +27,10 @@ class Graph {
         this.vertexMap[data] = new Vertex(data)
     }
 
+    addVertexNode(label, data) {
+        this.vertexMap[label] = new Vertex(data)
+    }
+
     addEdge(data1, data2) {
         if (!(this.edgeMap[`${data2, data1}`]) && !(this.edgeMap[`${data1}, ${data2}`])) {
             const v1 = this.vertexMap[data1]
@@ -48,7 +52,13 @@ class Graph {
     getNeighborsData(data) {
         return this.vertexMap[data].neighbors.map(v => v.data).join(", ")
     }
+
+    getNeighborsDataCb(data, cb) {
+        return this.vertexMap[data].neighbors.map(cb).join(",")
+    }
 }
-if (module) {
+try {
     module.exports = Graph
+} catch(e) {
+    console.log(e)
 }
