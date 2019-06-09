@@ -2,7 +2,7 @@ const w = window.innerWidth
 const h = window.innerHeight
 const scGap = 0.05
 const strokeFactor = 90
-const sizeFactor = 2.9
+const sizeFactor = 20
 const backColor = '#bdbdbd'
 
 class Stage {
@@ -73,5 +73,29 @@ class Animator {
             this.animated = false
             clearInterval(this.interval)
         }
+    }
+}
+
+class GraphPoint {
+    constructor(data, x, y) {
+        this.data = data
+        this.x = x
+        this.y = y
+        this.state = new State()
+    }
+
+    draw(context) {
+        const r = Math.min(w, h) /
+        context.beginPath()
+        context.arc(x, y, r * this.state.scale, 0, 2 * Math.PI)
+        context.fill()
+    }
+
+    update(cb) {
+        this.state.update(cb)
+    }
+
+    startUpdating(cb) {
+        this.state.startUpdating(cb)
     }
 }
