@@ -4,6 +4,7 @@ const scGap = 0.05
 const strokeFactor = 90
 const sizeFactor = 20
 const backColor = '#bdbdbd'
+var data = 0
 
 class Stage {
     constructor() {
@@ -97,5 +98,31 @@ class GraphPoint {
 
     startUpdating(cb) {
         this.state.startUpdating(cb)
+    }
+}
+
+class GraphRenderer {
+    constructor() {
+        this.graph = new Graph()
+    }
+
+    draw(context) {
+        this.graph.getVertices((vertex) => {
+            vertex.draw(context)
+        })
+    }
+
+    handleTap(x, y, cb) {
+        const graphPoint = new GraphPoint(data++, x, y)
+        this.graph.addVertex(graphPoint)
+        graphPoint.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.graph.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
     }
 }
