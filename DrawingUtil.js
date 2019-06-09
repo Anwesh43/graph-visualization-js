@@ -9,6 +9,7 @@ var data = 0
 class Stage {
     constructor() {
         this.canvas = document.createElement('canvas')
+        this.graphRenderer = new GraphRenderer()
         this.initCanvas()
     }
 
@@ -22,11 +23,14 @@ class Stage {
     render() {
         this.context.fillStyle = backColor
         this.context.fillRect(0, 0, w, h)
+        this.graphRenderer.draw(context)
     }
 
     handleTap() {
-        this.canvas.onmousedown = () => {
-
+        this.canvas.onmousedown = (event) => {
+            this.graphRenderer.handleTap(event.offsetX, event.offsetY, () => {
+                this.render()
+            })
         }
     }
 }
